@@ -3,12 +3,11 @@ package ma.enset;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.rdd.RDD;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class Main {
+public class FirstApplication {
     public static void main(String[] args) {
         SparkConf conf = new SparkConf()
                 // Name App is important for deployment on cluster
