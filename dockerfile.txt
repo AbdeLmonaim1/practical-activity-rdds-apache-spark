@@ -1,0 +1,23 @@
+# Base OpenJDK 21
+FROM openjdk:21-jdk-slim
+
+# Variables versions
+ENV HADOOP_VERSION=3.3.6
+ENV SPARK_VERSION=3.5.1
+ENV HADOOP_HOME=/opt/hadoop
+ENV SPARK_HOME=/opt/spark
+ENV PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$SPARK_HOME/bin:$SPARK_HOME/sbin
+
+# Installer Hadoop
+RUN wget https://downloads.apache.org/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz \
+    && tar -xzf hadoop-$HADOOP_VERSION.tar.gz -C /opt/ \
+    && mv /opt/hadoop-$HADOOP_VERSION $HADOOP_HOME \
+    && rm hadoop-$HADOOP_VERSION.tar.gz
+
+# Installer Spark
+RUN wget https://downloads.apache.org/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-hadoop3.tgz \
+    && tar -xzf spark-$SPARK_VERSION-bin-hadoop3.tgz -C /opt/ \
+    && mv /opt/spark-$SPARK_VERSION-bin-hadoop3 $SPARK_HOME \
+    && rm spark-$SPARK_VERSION-bin-hadoop3.tgz
+
+WORKDIR /root
