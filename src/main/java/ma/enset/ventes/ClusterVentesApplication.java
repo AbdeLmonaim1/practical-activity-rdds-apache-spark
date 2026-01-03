@@ -5,18 +5,16 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.api.java.function.FlatMapFunction;
 import scala.Tuple2;
 
-import java.util.Arrays;
 @Slf4j
-public class VentesApplication {
+public class ClusterVentesApplication {
     public static void main(String[] args) {
         SparkConf conf = new SparkConf()
                 .setAppName("Ventes Application")
-                .setMaster("local[*]");
+                ;
         JavaSparkContext sc = new JavaSparkContext(conf);
-        JavaRDD<String> readLines = sc.textFile("ventes.txt");
+        JavaRDD<String> readLines = sc.textFile("hdfs://namenode:8020/ventes.txt");
         JavaPairRDD<String, Double> ventesParVilles = readLines.mapToPair(line -> {
             String[] parts = line.split(" ");
             String Ville = parts[1];
@@ -33,8 +31,6 @@ public class VentesApplication {
                 .forEach(tuple ->
                         System.out.println(tuple._1() + " : " + tuple._2() + " DH")
                 );
-
-        //Question 2  - Par ville et par annee
         JavaPairRDD<String, Double> ventesParVilleEtAnnee = readLines.mapToPair(line -> {
             String[] parts = line.split(" ");
             String date = parts[0];
